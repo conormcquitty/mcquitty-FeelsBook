@@ -6,13 +6,94 @@
     android:layout_height="match_parent"
     tools:context=".MainScreen">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+    <Button
+        android:id="@+id/MainPageLoveButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="Love"
+        app:layout_constraintBottom_toTopOf="@+id/MainPageSurpriseButton"
+        app:layout_constraintEnd_toStartOf="@+id/MainPageJoyButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MainPageHeader" />
+
+    <EditText
+        android:id="@+id/MainPageHeader"
+        android:layout_width="234dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="FeelsBook"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/MainPageJoyButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="Joy"
+        app:layout_constraintBottom_toTopOf="@+id/MainPageAngerButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/MainPageLoveButton"
+        app:layout_constraintTop_toBottomOf="@+id/MainPageHeader" />
+
+    <Button
+        android:id="@+id/MainPageSurpriseButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="Surprise"
+        app:layout_constraintBottom_toTopOf="@+id/MainPageSadnessButton"
+        app:layout_constraintEnd_toStartOf="@+id/MainPageAngerButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MainPageLoveButton" />
+
+    <Button
+        android:id="@+id/MainPageAngerButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="Anger"
+        app:layout_constraintBottom_toTopOf="@+id/MainPageFearButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/MainPageSurpriseButton"
+        app:layout_constraintTop_toBottomOf="@+id/MainPageJoyButton" />
+
+    <Button
+        android:id="@+id/MainPageSadnessButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="Sadness"
+        app:layout_constraintBottom_toTopOf="@+id/MainPageHistoryButton"
+        app:layout_constraintEnd_toStartOf="@+id/MainPageFearButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MainPageSurpriseButton" />
+
+    <Button
+        android:id="@+id/MainPageFearButton"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:text="Fear"
+        app:layout_constraintBottom_toTopOf="@+id/MainPageHistoryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/MainPageSadnessButton"
+        app:layout_constraintTop_toBottomOf="@+id/MainPageAngerButton" />
+
+    <Button
+        android:id="@+id/MainPageHistoryButton"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="24dp"
+        android:text="View History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
