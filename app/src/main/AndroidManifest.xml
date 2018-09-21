@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EmotionPage"></activity>
+        <activity android:name=".EmotionListActivity" />
+        <activity android:name=".EditEmotion"></activity>
     </application>
 
 </manifest>

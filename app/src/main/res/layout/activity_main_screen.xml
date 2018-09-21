@@ -10,41 +10,33 @@
         android:id="@+id/MainPageLoveButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:onClick="chooseEmotion"
         android:text="Love"
         app:layout_constraintBottom_toTopOf="@+id/MainPageSurpriseButton"
         app:layout_constraintEnd_toStartOf="@+id/MainPageJoyButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainPageHeader" />
-
-    <EditText
-        android:id="@+id/MainPageHeader"
-        android:layout_width="234dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="FeelsBook"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/MainPageJoyButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:onClick="chooseEmotion"
         android:text="Joy"
         app:layout_constraintBottom_toTopOf="@+id/MainPageAngerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/MainPageLoveButton"
-        app:layout_constraintTop_toBottomOf="@+id/MainPageHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/MainPageSurpriseButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:onClick="chooseEmotion"
         android:text="Surprise"
         app:layout_constraintBottom_toTopOf="@+id/MainPageSadnessButton"
         app:layout_constraintEnd_toStartOf="@+id/MainPageAngerButton"
@@ -56,6 +48,7 @@
         android:id="@+id/MainPageAngerButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:onClick="chooseEmotion"
         android:text="Anger"
         app:layout_constraintBottom_toTopOf="@+id/MainPageFearButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,6 +60,7 @@
         android:id="@+id/MainPageSadnessButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:onClick="chooseEmotion"
         android:text="Sadness"
         app:layout_constraintBottom_toTopOf="@+id/MainPageHistoryButton"
         app:layout_constraintEnd_toStartOf="@+id/MainPageFearButton"
@@ -78,6 +72,7 @@
         android:id="@+id/MainPageFearButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:onClick="chooseEmotion"
         android:text="Fear"
         app:layout_constraintBottom_toTopOf="@+id/MainPageHistoryButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,5 +90,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:text="FeelsBook"
+        android:textSize="30sp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
