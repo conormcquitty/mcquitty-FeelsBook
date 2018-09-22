@@ -8,8 +8,8 @@ import java.util.Date;
 public class Emotion implements Serializable {
 
     private String emotion;
-    private Date date;
-    private String comment;
+    public Date date;
+    public String comment;
     private static final Integer MAX_COMMENT_LENGTH = 100;
 
 
@@ -21,7 +21,7 @@ public class Emotion implements Serializable {
         this.emotion = emotion;
     }
 
-    public String getEmotion(){
+    public String getEmotionName(){
         return this.emotion = emotion;
     }
 
