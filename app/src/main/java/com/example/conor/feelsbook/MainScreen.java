@@ -23,6 +23,7 @@ package com.example.conor.feelsbook;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 
@@ -43,7 +44,7 @@ public class MainScreen extends AppCompatActivity {
             switch (view.getId()){
                 case R.id.MainPageLoveButton:
                     SelectedEmotion = "Love";
-                    //Log.d("Love", "Added");
+                    Log.d("Love", "Added");
                     break;
                 case R.id.MainPageJoyButton:
                     SelectedEmotion = "Joy";
@@ -69,11 +70,12 @@ public class MainScreen extends AppCompatActivity {
 
             //Creates an Emotion object, adds it to the EmotionList, creates intent to go to EditEmotion
             //page, and passes the Emotion object to the EditEmotion page.
-            Emotion emotion = new Emotion(SelectedEmotion);
-            //Log.d("Fear", "Created2");
-            emotionList.addEmotion(emotion);
+           // Emotion emotion = new Emotion(SelectedEmotion);
+            Log.d("Fear", "Created2");
+           // emotionList.addEmotion(emotion);
             Intent intent = new Intent(this, EditEmotion.class);
-            intent.putExtra("SelectedEmotion", emotion);
+            intent.putExtra("SelectedEmotion", SelectedEmotion);
+            //intent.putExtra("EmotionList", emotionList);
             startActivity(intent);
         }
     }

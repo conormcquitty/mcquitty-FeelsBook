@@ -2,20 +2,128 @@ package com.example.conor.feelsbook;
 
 import android.app.Activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+//import android.util.Log;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 
 public class EmotionListActivity extends Activity {
 
+    //code derived from lab activity LonelyTwitter
+    private static final String FILENAME = "EmotionFile.sav";
+    private ListView oldEmotionList;
+   // EmotionList emotionList;
+    //Emotion emotion;
+    ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
+    ArrayAdapter<Emotion> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emotion_list);
-        Log.d("EmotionListPage", "Reached");
+
+        Button returnButton = (Button) findViewById(R.id.ReturnToHomeButton);
+       // Intent i = getIntent();
+        //emotionList = (ArrayList<Emotion>)i.getSerializableExtra("EmotionList");
+        //Log.d("emotion list ", "created");
+        oldEmotionList = (ListView) findViewById(R.id.EmotionListView);
+
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+
+                Intent intent = new Intent();
+                //intent.addCategory(Intent.CATEGORY_HOME);
+                //intent.putExtra("EmotionList", emotionList);
+                startActivity(intent);
+
+            }
+        });
     }
 
 
+
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        loadFromFile();
+        Log.d("load from file", "passed");
+
+        //adapter is basically an interface which connects your listView with your data
+        //data can come from database or from file
+        //adapter takes list view and binds it to data
+
+        adapter = new ArrayAdapter<Emotion>(this,
+                R.layout.list_item, emotionList);
+        Log.d("adapter creation ", "passed");
+        adapter.notifyDataSetChanged();
+        Log.d("adapter data changed ", "pass");
+        oldEmotionList.setAdapter(adapter);
+        Log.d("old emotion list ", "passed");
+    }
+
+
+    private void loadFromFile() {
+        Log.d("load from file ", "reached");
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson(); //library to save objects
+            Type listType = new TypeToken<ArrayList<Emotion>>() {
+            }.getType();
+
+            Log.d("emotion list ", "gson reached");
+            emotionList = gson.fromJson(in, listType);
+
+
+
+        } catch (FileNotFoundException e) {
+            emotionList = new ArrayList<Emotion>();
+        }
+    }
+
+/*
+    //takes a text and date and saves it to our file.
+    private void saveInFile() {
+        try {
+            //creates a file with FILENAME and tells it what it will say in java syntax
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(emotionList, out);
+            //important to flush otherwise you will print garbage
+            out.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    */
 }

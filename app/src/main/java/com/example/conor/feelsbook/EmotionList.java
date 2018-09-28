@@ -16,6 +16,7 @@ public class EmotionList {
     //Constructor
     public EmotionList(){
         emotionlist = new ArrayList<Emotion>();
+        this.emotionlist = emotionlist;
     }
 
     //List of Recorded Emotions
@@ -31,10 +32,7 @@ public class EmotionList {
        //Log.d("Emotion", "Added");
     }
 
-    //Print emotionList - for testing purposes
-    public void printEmotionList(){
 
-    }
 /*
     public void removeEmotion (Emotion emotion){
         emotionlist.remove(emotion);

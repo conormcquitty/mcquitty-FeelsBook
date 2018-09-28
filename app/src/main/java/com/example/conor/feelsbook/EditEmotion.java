@@ -1,40 +1,64 @@
 package com.example.conor.feelsbook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 //import android.util.Log;
+//import android.util.Log;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
 public class EditEmotion extends AppCompatActivity {
 
-    Emotion emotion;
+    //Emotion emotion;
+    String SelectedEmotion;
+    ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
+    private static final String FILENAME = "EmotionFile.sav";
 
-
+    //TODO: Remove functionality from onCreate function and move to seperate function
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_emotion);
 
+        Button saveButton = (Button) findViewById(R.id.SaveButtonEditEmotionPage);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                saveValues();
+            }
+        });
+
         //Getting Intent from previous page. Selecting Emotion object to work with.
         Intent i = getIntent();
-        emotion = (Emotion)i.getSerializableExtra("SelectedEmotion");
+
+        SelectedEmotion = (String)i.getSerializableExtra("SelectedEmotion");
 
         //Getting the header text
-        String selectedEmotion = emotion.getEmotionName();
+       // String selectedEmotion = emotion.getEmotionName();
         TextView HeaderText = (TextView) findViewById(R.id.EmotionHeaderEditEmotionPage);
-        HeaderText.setText(selectedEmotion);
+        HeaderText.setText(SelectedEmotion);
 
         //Getting the date
-        Date date = emotion.getDate();
+        Date date = new Date();
+        //Date date = emotion.getDate();
         // taken from https://mincong-h.github.io/2017/02/16/convert-date-to-string-in-java/#javautildate
         SimpleDateFormat sdf;
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -45,7 +69,8 @@ public class EditEmotion extends AppCompatActivity {
 
         //TODO: Throw exceptions when comment is too long.
         //Getting the comment
-        String comment = emotion.getComment();
+        //String comment = emotion.getComment();
+        String comment = null;
         if (comment!=null){
             TextView CommentText = (TextView) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
             CommentText.setText(comment);
@@ -55,18 +80,19 @@ public class EditEmotion extends AppCompatActivity {
             TextView CommentText = (TextView) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
             CommentText.setText("Enter Comment");
         }
-
     }
 
 
-
     //Saving entered comments and date
-    public void saveValues(View view){
+    public void saveValues(){
 
+        Emotion emotion = new Emotion (SelectedEmotion);
+        Log.d("Save button", "Clicked");
         //Save comment
         EditText commentText = (EditText) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
         String commentToSave = commentText.getText().toString();
         emotion.comment = commentToSave;
+        Log.d("comment text", "added");
 
         //Save date
         EditText dateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
@@ -81,14 +107,60 @@ public class EditEmotion extends AppCompatActivity {
             Date date = sdf.parse(dateToSave);
             emotion.date = date;
         }
-        catch (ParseException e){
+        catch (ParseException a){
+            a.printStackTrace();
+        }
+
+        if (emotion != null){
+            Log.d("emotion", "not null");
+            String logm = emotion.getEmotionName();
+            Log.d("emotion",logm);
+        }
+        Log.d("add emotion", "reached");
+        emotionList.add(emotion);
+        //Log.d("Save in file", "reached");
+        saveInFile();
+        /*
+        //Go to Emotion List
+        Intent intent = new Intent(this, EmotionListActivity.class);
+        intent.putExtra("SelectedEmotion", emotion);
+        startActivity(intent);
+        */
+    }
+
+
+    //takes a text and date and saves it to our file.
+    private void saveInFile() {
+        Log.d("Save in file ", "reached 2");
+        try {
+            //creates a file with FILENAME and tells it what it will say in java syntax
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(emotionList, out);
+
+            //String jsonEmotionList =  gson.toJson(emotionList, out);
+
+            //important to flush otherwise you will print garbage
+            out.flush();
+            fos.close();
+
+
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        Log.d("SaveValues", "Reached");
-        //Go to Emotion List
         Intent intent = new Intent(this, EmotionListActivity.class);
-        //intent.putExtra("SelectedEmotion", emotion);
+        intent.putExtra("EmotionList", emotionList);
         startActivity(intent);
+
     }
+
 }
