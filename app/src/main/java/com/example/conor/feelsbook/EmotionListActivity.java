@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
 
 
 public class EmotionListActivity extends Activity {
@@ -33,7 +34,7 @@ public class EmotionListActivity extends Activity {
     private static final String FILENAME = "EmotionFile.sav";
     private ListView oldEmotionList;
    // EmotionList emotionList;
-    //Emotion emotion;
+    Emotion emotion;
     ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
     ArrayAdapter<Emotion> adapter;
 
@@ -44,17 +45,15 @@ public class EmotionListActivity extends Activity {
 
         Button returnButton = (Button) findViewById(R.id.ReturnToHomeButton);
        // Intent i = getIntent();
-        //emotionList = (ArrayList<Emotion>)i.getSerializableExtra("EmotionList");
+       // emotion = (Emotion)i.getSerializableExtra("Emotion");
+       // emotionList.add(emotion);
         //Log.d("emotion list ", "created");
         oldEmotionList = (ListView) findViewById(R.id.EmotionListView);
 
         returnButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-
-                Intent intent = new Intent();
-                //intent.addCategory(Intent.CATEGORY_HOME);
-                //intent.putExtra("EmotionList", emotionList);
+                Intent intent = new Intent(v.getContext(), MainScreen.class);
                 startActivity(intent);
 
             }
@@ -75,16 +74,15 @@ public class EmotionListActivity extends Activity {
 
         adapter = new ArrayAdapter<Emotion>(this,
                 R.layout.list_item, emotionList);
-        Log.d("adapter creation ", "passed");
+
         adapter.notifyDataSetChanged();
-        Log.d("adapter data changed ", "pass");
+
         oldEmotionList.setAdapter(adapter);
-        Log.d("old emotion list ", "passed");
+
     }
 
 
     private void loadFromFile() {
-        Log.d("load from file ", "reached");
         try {
             FileInputStream fis = openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
@@ -93,15 +91,13 @@ public class EmotionListActivity extends Activity {
             Type listType = new TypeToken<ArrayList<Emotion>>() {
             }.getType();
 
-            Log.d("emotion list ", "gson reached");
             emotionList = gson.fromJson(in, listType);
-
-
 
         } catch (FileNotFoundException e) {
             emotionList = new ArrayList<Emotion>();
         }
     }
+
 
 /*
     //takes a text and date and saves it to our file.

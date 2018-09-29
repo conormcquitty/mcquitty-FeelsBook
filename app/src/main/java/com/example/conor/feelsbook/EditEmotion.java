@@ -23,13 +23,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.logging.FileHandler;
 
 public class EditEmotion extends AppCompatActivity {
 
-    //Emotion emotion;
     String SelectedEmotion;
-    ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
+    ArrayList<Emotion> emotionList;
     private static final String FILENAME = "EmotionFile.sav";
 
     //TODO: Remove functionality from onCreate function and move to seperate function
@@ -50,7 +49,7 @@ public class EditEmotion extends AppCompatActivity {
         Intent i = getIntent();
 
         SelectedEmotion = (String)i.getSerializableExtra("SelectedEmotion");
-
+        emotionList = (ArrayList<Emotion>)i.getSerializableExtra("ArrayList");
         //Getting the header text
        // String selectedEmotion = emotion.getEmotionName();
         TextView HeaderText = (TextView) findViewById(R.id.EmotionHeaderEditEmotionPage);
@@ -87,12 +86,12 @@ public class EditEmotion extends AppCompatActivity {
     public void saveValues(){
 
         Emotion emotion = new Emotion (SelectedEmotion);
-        Log.d("Save button", "Clicked");
+
         //Save comment
         EditText commentText = (EditText) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
         String commentToSave = commentText.getText().toString();
         emotion.comment = commentToSave;
-        Log.d("comment text", "added");
+
 
         //Save date
         EditText dateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
@@ -111,27 +110,15 @@ public class EditEmotion extends AppCompatActivity {
             a.printStackTrace();
         }
 
-        if (emotion != null){
-            Log.d("emotion", "not null");
-            String logm = emotion.getEmotionName();
-            Log.d("emotion",logm);
-        }
-        Log.d("add emotion", "reached");
         emotionList.add(emotion);
-        //Log.d("Save in file", "reached");
+
         saveInFile();
-        /*
-        //Go to Emotion List
-        Intent intent = new Intent(this, EmotionListActivity.class);
-        intent.putExtra("SelectedEmotion", emotion);
-        startActivity(intent);
-        */
     }
 
 
     //takes a text and date and saves it to our file.
     private void saveInFile() {
-        Log.d("Save in file ", "reached 2");
+
         try {
             //creates a file with FILENAME and tells it what it will say in java syntax
             FileOutputStream fos = openFileOutput(FILENAME,
@@ -159,8 +146,7 @@ public class EditEmotion extends AppCompatActivity {
 
         Intent intent = new Intent(this, EmotionListActivity.class);
         intent.putExtra("EmotionList", emotionList);
+       // intent.putExtra("Emotion", emotion);
         startActivity(intent);
-
     }
-
 }

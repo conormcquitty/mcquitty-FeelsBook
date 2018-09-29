@@ -26,56 +26,76 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 
 public class MainScreen extends AppCompatActivity {
-
-   public String SelectedEmotion;
-   EmotionList emotionList = new EmotionList();
+    ArrayList<Emotion> emotionList;
+    public String SelectedEmotion;
+    private static final String FILENAME = "EmotionFile.sav";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+        loadFromFile();
     }
 
+    private void loadFromFile() {
+        Log.d("load from file ", "reached");
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson(); //library to save objects
+            Type listType = new TypeToken<ArrayList<Emotion>>() {
+            }.getType();
+
+            Log.d("emotion list ", "gson reached");
+            emotionList = gson.fromJson(in, listType);
+
+        } catch (FileNotFoundException e) {
+            emotionList = new ArrayList<Emotion>();
+        }
+    }
         //When emotion button is clicked, takes you to emotion list page and creates Emotion object
         public void chooseEmotion(View view) {
             switch (view.getId()){
                 case R.id.MainPageLoveButton:
                     SelectedEmotion = "Love";
-                    Log.d("Love", "Added");
                     break;
                 case R.id.MainPageJoyButton:
                     SelectedEmotion = "Joy";
-                    //Log.d("Joy", "Added");
                     break;
                 case R.id.MainPageSurpriseButton:
                     SelectedEmotion = "Surprise";
-                    //Log.d("Surprise", "Added");
                     break;
                 case R.id.MainPageAngerButton:
                     SelectedEmotion = "Anger";
-                    //Log.d("Anger", "Added");
                     break;
                 case R.id.MainPageSadnessButton:
                     SelectedEmotion = "Sadness";
-                    //Log.d("Sadness", "Added");
                     break;
                 case R.id.MainPageFearButton:
                     SelectedEmotion = "Fear";
-                   // Log.d("Fear", "Added");
                     break;
             }
 
+
+
             //Creates an Emotion object, adds it to the EmotionList, creates intent to go to EditEmotion
-            //page, and passes the Emotion object to the EditEmotion page.
-           // Emotion emotion = new Emotion(SelectedEmotion);
-            Log.d("Fear", "Created2");
-           // emotionList.addEmotion(emotion);
+            //page, and passes the Emotion name to the EditEmotion page.
             Intent intent = new Intent(this, EditEmotion.class);
             intent.putExtra("SelectedEmotion", SelectedEmotion);
-            //intent.putExtra("EmotionList", emotionList);
+            intent.putExtra("ArrayList", emotionList);
             startActivity(intent);
         }
     }

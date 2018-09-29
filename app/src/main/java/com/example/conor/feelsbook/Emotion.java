@@ -21,6 +21,10 @@ public class Emotion implements Serializable {
         this.emotion = emotion;
     }
 
+    public String toString(){
+        return emotion + "\n" + date;
+    }
+
     public String getEmotionName(){
         return this.emotion = emotion;
     }
