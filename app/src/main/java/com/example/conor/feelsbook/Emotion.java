@@ -36,4 +36,18 @@ public class Emotion implements Serializable {
     public String getComment(){
         return this.comment;
     }
+
+/*
+    public boolean equals(Emotion emotion) {
+        boolean a = false;
+        if (this == emotion) {
+            a = true;
+        }
+        if (emotion == null){
+            a = false;
+        }
+        return a;
+    }
+*/
+
 }

@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -47,10 +48,20 @@ public class MainScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         loadFromFile();
+
+        //takes you straight to the Emotion List page
+        Button historyButton = (Button) findViewById(R.id.MainPageHistoryButton);
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                Intent intent = new Intent(v.getContext(), EmotionListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
+    //loads emotionList array list for use throughout the program
     private void loadFromFile() {
-        Log.d("load from file ", "reached");
         try {
             FileInputStream fis = openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
@@ -59,14 +70,14 @@ public class MainScreen extends AppCompatActivity {
             Type listType = new TypeToken<ArrayList<Emotion>>() {
             }.getType();
 
-            Log.d("emotion list ", "gson reached");
             emotionList = gson.fromJson(in, listType);
 
         } catch (FileNotFoundException e) {
             emotionList = new ArrayList<Emotion>();
         }
     }
-        //When emotion button is clicked, takes you to emotion list page and creates Emotion object
+
+        //When an emotion button is clicked, takes you to edit emotion page
         public void chooseEmotion(View view) {
             switch (view.getId()){
                 case R.id.MainPageLoveButton:
@@ -89,10 +100,8 @@ public class MainScreen extends AppCompatActivity {
                     break;
             }
 
-
-
-            //Creates an Emotion object, adds it to the EmotionList, creates intent to go to EditEmotion
-            //page, and passes the Emotion name to the EditEmotion page.
+            //creates intent to go to EditEmotion page, passes the Emotion name and ArrayList
+            // to the EditEmotion page.
             Intent intent = new Intent(this, EditEmotion.class);
             intent.putExtra("SelectedEmotion", SelectedEmotion);
             intent.putExtra("ArrayList", emotionList);

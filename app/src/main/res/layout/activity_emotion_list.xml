@@ -15,13 +15,24 @@
 
     <Button
         android:id="@+id/ReturnToHomeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="16dp"
-        android:text="Return Home"
         android:gravity="center"
+        android:text="Return Home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ClearButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ClearButton"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:text="Clear"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/ReturnToHomeButton" />
 </android.support.constraint.ConstraintLayout>
