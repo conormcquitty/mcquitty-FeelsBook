@@ -13,13 +13,12 @@ public class Emotion implements Serializable {
     private static final Integer MAX_COMMENT_LENGTH = 100;
 
 
-
-
     public Emotion(String emotion){
         this.date = new Date();
         this.comment = null;
         this.emotion = emotion;
     }
+
 
     public String toString(){
         return emotion + "\n" + date;
@@ -36,18 +35,5 @@ public class Emotion implements Serializable {
     public String getComment(){
         return this.comment;
     }
-
-/*
-    public boolean equals(Emotion emotion) {
-        boolean a = false;
-        if (this == emotion) {
-            a = true;
-        }
-        if (emotion == null){
-            a = false;
-        }
-        return a;
-    }
-*/
 
 }

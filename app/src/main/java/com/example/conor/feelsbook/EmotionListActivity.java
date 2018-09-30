@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 //import android.util.Log;
 import android.util.Log;
@@ -27,32 +26,34 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.logging.FileHandler;
 
 
 public class EmotionListActivity extends Activity {
 
     //code derived from lab activity LonelyTwitter
-    private static final String FILENAME = "EmotionFile.sav";
+    private static final String FILENAME = "EmotionFile2.sav";
     private ListView oldEmotionList;
     Emotion emotion;
-    ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
+    ArrayList<Emotion> emotionList;
+    //ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
     ArrayAdapter<Emotion> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emotion_list);
-
         oldEmotionList = (ListView) findViewById(R.id.EmotionListView);
+
+
 
         //Returns to home screen on press
         Button returnButton = (Button) findViewById(R.id.ReturnToHomeButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                Intent intent = new Intent(v.getContext(), MainScreen.class);
-                startActivity(intent);
+                saveInFile();
+                Intent i = new Intent(v.getContext(), MainScreen.class);
+                startActivity(i);
             }
         });
 
@@ -61,43 +62,49 @@ public class EmotionListActivity extends Activity {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 emotionList.clear();
-                //adapter refreshes list View
+                saveInFile();
                 adapter.notifyDataSetChanged();
-
             }
         });
 
-        //Takes you to edit emotion detials when an emotion on lsit view is clicked
+
+        //Takes you to edit emotion details when an emotion on lsit view is clicked
         oldEmotionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Object object = oldEmotionList.getItemAtPosition(position);
                     Emotion emotion = Emotion.class.cast(object);
                     String SelectedEmotion = emotion.getEmotionName();
-                    Intent intent = new Intent(view.getContext(), EditEmotion.class);
-                    intent.putExtra("SelectedEmotion", SelectedEmotion);
-                    intent.putExtra("Emotion", emotion);
-                    startActivity(intent);
+                    Intent i = new Intent(view.getContext(), EditEmotion.class);
+                    i.putExtra("SelectedEmotion", SelectedEmotion);
+                    i.putExtra("Emotion", emotion);
+                    startActivity(i);
                     //getItemAtPosition(position);
                 }
         });
     }
 
-
-
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
         loadFromFile();
-        Log.d("load from file", "passed");
 
+        //saving the emotion from previous screen
+        Intent i = getIntent();
+        emotion = (Emotion)i.getSerializableExtra("Emotion");
+        String comment = emotion.getComment();
+        Log.d("Comment", comment);
+        emotionList.add(emotion);
         //adapter is basically an interface which connects your listView with your data
         //data can come from database or from file
         //adapter takes list view and binds it to data
         adapter = new ArrayAdapter<Emotion>(this,
                 R.layout.list_item, emotionList);
+        Log.d("Passed","Initial");
         adapter.notifyDataSetChanged();
+        Log.d("Passed","data set changed");
         oldEmotionList.setAdapter(adapter);
+        Log.d("Passed","set adapter");
     }
 
     private void loadFromFile() {
@@ -108,9 +115,10 @@ public class EmotionListActivity extends Activity {
             Gson gson = new Gson(); //library to save objects
             Type listType = new TypeToken<ArrayList<Emotion>>() {
             }.getType();
-
+            Log.d("LoadFromFile", "Reached");
             emotionList = gson.fromJson(in, listType);
         } catch (FileNotFoundException e) {
+            Log.d("eeeMotion List", "Null");
             emotionList = new ArrayList<Emotion>();
         }
     }
