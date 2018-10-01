@@ -36,7 +36,6 @@ public class EmotionListActivity extends Activity {
     private ListView oldEmotionList;
     Emotion emotion;
     ArrayList<Emotion> emotionList;
-    //ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
     ArrayAdapter<Emotion> adapter;
     String action;
 

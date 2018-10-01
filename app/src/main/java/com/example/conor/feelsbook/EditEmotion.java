@@ -46,15 +46,15 @@ public class EditEmotion extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                delete(emotion);
-                /*
+                //delete(emotion);
+
                 Intent intent = new Intent(v.getContext(), EmotionListActivity.class);
                 intent.putExtra("Action", "Delete");
                 intent.putExtra("Emotion", emotion);
-                String testComment = emotion.getComment();
-                Log.d ("onPress Comment", testComment);
+                //String testComment = emotion.getComment();
+                //Log.d ("onPress Comment", testComment);
                 startActivity(intent);
-                */
+
             }
         });
 

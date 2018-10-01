@@ -37,7 +37,9 @@ public class CounterActivity extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                finish();
+                Intent intent = new Intent(v.getContext(), EmotionListActivity.class);
+                intent.putExtra("Action", "ViewHistory");
+                startActivity(intent);
             }
         });
 
