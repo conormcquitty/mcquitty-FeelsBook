@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CounterActivity">
+
+    <TextView
+        android:id="@+id/loveCountDisplay"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/surpriseCountDisplay"
+        app:layout_constraintEnd_toStartOf="@+id/joyCountDisplay"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/joyCountDisplay"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/angerCountDisplay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loveCountDisplay"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/surpriseCountDisplay"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/sadnessCountDisplay"
+        app:layout_constraintEnd_toStartOf="@+id/angerCountDisplay"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loveCountDisplay" />
+
+    <TextView
+        android:id="@+id/angerCountDisplay"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/fearCountDisplay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/surpriseCountDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/joyCountDisplay" />
+
+    <TextView
+        android:id="@+id/sadnessCountDisplay"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/returnButtonCountPage"
+        app:layout_constraintEnd_toStartOf="@+id/fearCountDisplay"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/surpriseCountDisplay" />
+
+    <TextView
+        android:id="@+id/fearCountDisplay"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/returnButtonCountPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sadnessCountDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/angerCountDisplay" />
+
+    <Button
+        android:id="@+id/returnButtonCountPage"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:text="Return"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

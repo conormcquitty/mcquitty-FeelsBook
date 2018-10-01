@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".EmotionListActivity" />
-        <activity android:name=".EditEmotion"></activity>
+        <activity android:name=".EditEmotion" />
+        <activity android:name=".CounterActivity"></activity>
     </application>
 
 </manifest>

@@ -39,7 +39,7 @@ public class EmotionListActivity extends Activity {
     //ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
     ArrayAdapter<Emotion> adapter;
     String action;
-    //String action;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class EmotionListActivity extends Activity {
             }
         });
 
+        //Clears the list on press
         Button clearButton = (Button) findViewById(R.id.ClearButton);
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -71,6 +72,19 @@ public class EmotionListActivity extends Activity {
         });
 
 
+        //Go to counter screen on press
+        Button countButton = (Button) findViewById(R.id.CountButton);
+        countButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                saveInFile();
+                Intent i = new Intent(v.getContext(), CounterActivity.class);
+                i.putExtra("ArrayList", emotionList);
+                startActivity(i);
+            }
+        });
+
+
         //Takes you to edit emotion details when an emotion on list view is clicked
         oldEmotionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -78,11 +92,14 @@ public class EmotionListActivity extends Activity {
                     Object object = oldEmotionList.getItemAtPosition(position);
                     Emotion emotion = Emotion.class.cast(object);
                     String SelectedEmotion = emotion.getEmotionName();
+                    /*
                     String comment = emotion.getComment();
+                    Log.d("EmotionList Comment", comment);
+                    */
                     Intent i = new Intent(view.getContext(), EditEmotion.class);
                     i.putExtra("SelectedEmotion", SelectedEmotion);
                     i.putExtra("Emotion", emotion);
-                    i.putExtra("Comment", comment);
+                    //i.putExtra("Comment", comment);
                     startActivity(i);
                     //getItemAtPosition(position);
                 }
@@ -104,13 +121,10 @@ public class EmotionListActivity extends Activity {
             action = " ";
         }
 
-
-
         if (action.equals("Delete")){
             //Log.d("inside","if delete");
-            String comment = emotion.getComment();
-            Log.d("Comment", comment);
-
+            //String comment = emotion.getComment();
+            //Log.d("Comment", comment);
             emotionList.remove(emotion);
         }
 
