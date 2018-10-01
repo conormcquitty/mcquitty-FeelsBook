@@ -36,12 +36,14 @@ public class MainScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+
         //takes you straight to the Emotion List page
         Button historyButton = (Button) findViewById(R.id.MainPageHistoryButton);
         historyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 Intent intent = new Intent(v.getContext(), EmotionListActivity.class);
+                intent.putExtra("Action", "ViewHistory");
                 startActivity(intent);
             }
         });

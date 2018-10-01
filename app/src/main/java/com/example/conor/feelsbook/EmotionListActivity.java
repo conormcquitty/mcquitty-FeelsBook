@@ -28,15 +28,18 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
+
 public class EmotionListActivity extends Activity {
 
     //code derived from lab activity LonelyTwitter
-    private static final String FILENAME = "EmotionFile2.sav";
+    private static final String FILENAME = "EmotionFile3.sav";
     private ListView oldEmotionList;
     Emotion emotion;
     ArrayList<Emotion> emotionList;
     //ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
     ArrayAdapter<Emotion> adapter;
+    String action;
+    //String action;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +71,18 @@ public class EmotionListActivity extends Activity {
         });
 
 
-        //Takes you to edit emotion details when an emotion on lsit view is clicked
+        //Takes you to edit emotion details when an emotion on list view is clicked
         oldEmotionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Object object = oldEmotionList.getItemAtPosition(position);
                     Emotion emotion = Emotion.class.cast(object);
                     String SelectedEmotion = emotion.getEmotionName();
+                    String comment = emotion.getComment();
                     Intent i = new Intent(view.getContext(), EditEmotion.class);
                     i.putExtra("SelectedEmotion", SelectedEmotion);
                     i.putExtra("Emotion", emotion);
+                    i.putExtra("Comment", comment);
                     startActivity(i);
                     //getItemAtPosition(position);
                 }
@@ -89,22 +94,37 @@ public class EmotionListActivity extends Activity {
         super.onStart();
         loadFromFile();
 
+        //TODO: take this out of on start and make work with Main Page 'View History' Button
         //saving the emotion from previous screen
         Intent i = getIntent();
+        Log.d("intent", "reached");
         emotion = (Emotion)i.getSerializableExtra("Emotion");
-        String comment = emotion.getComment();
-        Log.d("Comment", comment);
-        emotionList.add(emotion);
+        action = (String)i.getSerializableExtra("Action");
+        if (action == null){
+            action = " ";
+        }
+
+
+
+        if (action.equals("Delete")){
+            //Log.d("inside","if delete");
+            String comment = emotion.getComment();
+            Log.d("Comment", comment);
+
+            emotionList.remove(emotion);
+        }
+
+        if ((action.equals("ViewHistory")) == false && (action.equals("Delete")) == false) {
+            emotionList.add(emotion);
+        }
+
         //adapter is basically an interface which connects your listView with your data
         //data can come from database or from file
         //adapter takes list view and binds it to data
         adapter = new ArrayAdapter<Emotion>(this,
                 R.layout.list_item, emotionList);
-        Log.d("Passed","Initial");
         adapter.notifyDataSetChanged();
-        Log.d("Passed","data set changed");
         oldEmotionList.setAdapter(adapter);
-        Log.d("Passed","set adapter");
     }
 
     private void loadFromFile() {
@@ -115,10 +135,8 @@ public class EmotionListActivity extends Activity {
             Gson gson = new Gson(); //library to save objects
             Type listType = new TypeToken<ArrayList<Emotion>>() {
             }.getType();
-            Log.d("LoadFromFile", "Reached");
             emotionList = gson.fromJson(in, listType);
         } catch (FileNotFoundException e) {
-            Log.d("eeeMotion List", "Null");
             emotionList = new ArrayList<Emotion>();
         }
     }
@@ -146,4 +164,13 @@ public class EmotionListActivity extends Activity {
             e.printStackTrace();
         }
     }
+
+/*
+    void delete(Emotion emotion){
+        //Log.d("Delete", "Reached");
+        emotionList.remove(emotion);
+        saveInFile();
+        //adapter.notifyDataSetChanged();
+    }
+*/
 }

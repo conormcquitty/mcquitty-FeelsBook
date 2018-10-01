@@ -10,6 +10,7 @@
         android:id="@+id/CommentEditTextBoxEditEmotionPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
@@ -23,11 +24,12 @@
         android:id="@+id/DateEditTextBoxEditEmotionPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/SaveButtonEditEmotionPage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CommentEditTextBoxEditEmotionPage" />
 
@@ -35,13 +37,13 @@
         android:id="@+id/SaveButtonEditEmotionPage"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="24dp"
         android:onClick="saveValues"
         android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/DeleteButtonEditEmotionPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DateEditTextBoxEditEmotionPage" />
 
     <TextView
         android:id="@+id/EmotionHeaderEditEmotionPage"
@@ -49,10 +51,21 @@
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
 
-        android:textSize="30sp"
         android:gravity="center"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/DeleteButtonEditEmotionPage"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="24dp"
+        android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

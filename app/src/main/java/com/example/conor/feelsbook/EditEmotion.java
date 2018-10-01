@@ -22,6 +22,7 @@ public class EditEmotion extends AppCompatActivity {
     String commentString;
 
 
+
     //TODO: Remove functionality from onCreate function and move to other function
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class EditEmotion extends AppCompatActivity {
         Intent i = getIntent();
         SelectedEmotion = (String)i.getSerializableExtra("SelectedEmotion");
         final Emotion emotion = (Emotion)i.getSerializableExtra("Emotion");
+        String Comment = (String)i.getSerializableExtra("Comment");
 
         //Saves the emotion to the array list
         Button saveButton = (Button) findViewById(R.id.SaveButtonEditEmotionPage);
@@ -41,6 +43,20 @@ public class EditEmotion extends AppCompatActivity {
                 saveValues(emotion);
             }
         });
+
+
+        Button deleteButton = (Button) findViewById(R.id.DeleteButtonEditEmotionPage);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                Intent intent = new Intent(v.getContext(), EmotionListActivity.class);
+                //String action = "Delete";
+                intent.putExtra("Action", "Delete");
+                intent.putExtra("Emotion", emotion);
+                startActivity(intent);
+            }
+        });
+
 
 
         //Getting the header text
@@ -77,14 +93,12 @@ public class EditEmotion extends AppCompatActivity {
         }
     }
 
-
+    
     //Saving entered comments and date to Emotion object
     public void saveValues(Emotion emotion){
 
         //if it's a new emotion, make a new Emotion
         if (emotion == null) {
-            Log.d("Emotion", "Null");
-            Log.d("Selected Emotion", SelectedEmotion);
             emotion  = new Emotion(SelectedEmotion);
         }
 

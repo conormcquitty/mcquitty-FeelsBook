@@ -35,5 +35,4 @@ public class Emotion implements Serializable {
     public String getComment(){
         return this.comment;
     }
-
 }
