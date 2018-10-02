@@ -59,6 +59,7 @@ public class EmotionListActivity extends Activity {
             }
         });
 
+
         //Clears the list on press
         Button clearButton = (Button) findViewById(R.id.ClearButton);
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +99,8 @@ public class EmotionListActivity extends Activity {
                     Intent i = new Intent(view.getContext(), EditEmotion.class);
                     i.putExtra("SelectedEmotion", SelectedEmotion);
                     i.putExtra("Emotion", emotion);
+                    i.putExtra("Index", position);
+                    Log.d("fuck", String.valueOf(position));
                     //i.putExtra("Comment", comment);
                     startActivity(i);
                     //getItemAtPosition(position);
@@ -110,12 +113,14 @@ public class EmotionListActivity extends Activity {
         super.onStart();
         loadFromFile();
 
+
         //TODO: take this out of on start and make work with Main Page 'View History' Button
         //saving the emotion from previous screen
-        Intent i = getIntent();
-        Log.d("intent", "reached");
-        emotion = (Emotion)i.getSerializableExtra("Emotion");
-        action = (String)i.getSerializableExtra("Action");
+       // Intent i = getIntent();
+        //Log.d("intent", "reached");
+       // emotion = (Emotion)i.getSerializableExtra("Emotion");
+       // action = (String)i.getSerializableExtra("Action");
+/*
         if (action == null){
             action = " ";
         }
@@ -127,10 +132,11 @@ public class EmotionListActivity extends Activity {
             emotionList.remove(emotion);
         }
 
-        if ((action.equals("ViewHistory")) == false && (action.equals("Delete")) == false) {
+        if (action.equals("NewSave")) {
             emotionList.add(emotion);
         }
-
+        saveInFile();
+*/
         //adapter is basically an interface which connects your listView with your data
         //data can come from database or from file
         //adapter takes list view and binds it to data

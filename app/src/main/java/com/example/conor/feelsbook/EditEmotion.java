@@ -2,6 +2,7 @@ package com.example.conor.feelsbook;
 
 //import android.util.Log;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,15 +12,32 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
 public class EditEmotion extends AppCompatActivity {
 
+    private static final String FILENAME = "EmotionFile3.sav";
+    ArrayList<Emotion> emotionList;
     String SelectedEmotion;
     String commentString;
+    String action;
+    int index;
 
 
 
@@ -29,15 +47,23 @@ public class EditEmotion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_emotion);
 
+
+        if (emotionList == null){
+            loadFromFile();
+        }
+
+
         Intent i = getIntent();
         SelectedEmotion = (String)i.getSerializableExtra("SelectedEmotion");
         final Emotion emotion = (Emotion)i.getSerializableExtra("Emotion");
+        index = (int)i.getIntExtra("Index", -1);
 
         //Saves the emotion to the array list
         Button saveButton = (Button) findViewById(R.id.SaveButtonEditEmotionPage);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
+               // Log.d("fuck", emotion.getComment());
                 saveValues(emotion);
             }
         });
@@ -46,14 +72,16 @@ public class EditEmotion extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                //delete(emotion);
+                delete(index);
 
+                /*
                 Intent intent = new Intent(v.getContext(), EmotionListActivity.class);
                 intent.putExtra("Action", "Delete");
                 intent.putExtra("Emotion", emotion);
                 //String testComment = emotion.getComment();
                 //Log.d ("onPress Comment", testComment);
                 startActivity(intent);
+                */
 
             }
         });
@@ -145,7 +173,12 @@ public class EditEmotion extends AppCompatActivity {
 
         //if it's a new emotion, make a new Emotion
         if (emotion == null) {
+            action = "NewSave";
             emotion  = new Emotion(SelectedEmotion);
+        }
+
+        else{
+            action = "OldSave";
         }
 
         //Save comment
@@ -172,22 +205,72 @@ public class EditEmotion extends AppCompatActivity {
             Date date = sdf.parse(dateToSave);
             emotion.date = date;
         }
+
         catch (ParseException a){
             a.printStackTrace();
         }
 
+        if (action.equals("NewSave")){
+            emotionList.add(emotion);
+        }
+        if(action.equals("OldSave")){
+            emotionList.set(index,emotion);
+        }
+
+        saveInFile();
+
         Intent intent = new Intent(this, EmotionListActivity.class);
-        intent.putExtra("Emotion", emotion);
+       // intent.putExtra("Emotion", emotion);
         startActivity(intent);
     }
 
-    void delete (Emotion emotion){
+    void delete (int index){
+        emotionList.remove(index);
+        saveInFile();
+
+
 
         Intent intent = new Intent(this, EmotionListActivity.class);
-        intent.putExtra("Action", "Delete");
-        intent.putExtra("Emotion", emotion);
         //String testComment = emotion.getComment();
         //Log.d ("onPress Comment", testComment);
         startActivity(intent);
+    }
+
+    private void loadFromFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson(); //library to save objects
+            Type listType = new TypeToken<ArrayList<Emotion>>() {
+            }.getType();
+            emotionList = gson.fromJson(in, listType);
+        } catch (FileNotFoundException e) {
+            emotionList = new ArrayList<Emotion>();
+        }
+    }
+
+    //takes a text and date and saves it to our file.
+    private void saveInFile() {
+        try {
+            //creates a file with FILENAME and tells it what it will say in java syntax
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(emotionList, out);
+
+            //important to flush otherwise you will print garbage
+            out.flush();
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
