@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-//import android.util.Log;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,10 +32,8 @@ public class EmotionListActivity extends Activity {
     //code derived from lab activity LonelyTwitter
     private static final String FILENAME = "EmotionFile3.sav";
     private ListView oldEmotionList;
-    Emotion emotion;
     ArrayList<Emotion> emotionList;
     ArrayAdapter<Emotion> adapter;
-    String action;
 
 
     @Override
@@ -92,18 +88,11 @@ public class EmotionListActivity extends Activity {
                     Object object = oldEmotionList.getItemAtPosition(position);
                     Emotion emotion = Emotion.class.cast(object);
                     String SelectedEmotion = emotion.getEmotionName();
-                    /*
-                    String comment = emotion.getComment();
-                    Log.d("EmotionList Comment", comment);
-                    */
                     Intent i = new Intent(view.getContext(), EditEmotion.class);
                     i.putExtra("SelectedEmotion", SelectedEmotion);
                     i.putExtra("Emotion", emotion);
                     i.putExtra("Index", position);
-                    Log.d("fuck", String.valueOf(position));
-                    //i.putExtra("Comment", comment);
                     startActivity(i);
-                    //getItemAtPosition(position);
                 }
         });
     }
@@ -113,30 +102,6 @@ public class EmotionListActivity extends Activity {
         super.onStart();
         loadFromFile();
 
-
-        //TODO: take this out of on start and make work with Main Page 'View History' Button
-        //saving the emotion from previous screen
-       // Intent i = getIntent();
-        //Log.d("intent", "reached");
-       // emotion = (Emotion)i.getSerializableExtra("Emotion");
-       // action = (String)i.getSerializableExtra("Action");
-/*
-        if (action == null){
-            action = " ";
-        }
-
-        if (action.equals("Delete")){
-            //Log.d("inside","if delete");
-            //String comment = emotion.getComment();
-            //Log.d("Comment", comment);
-            emotionList.remove(emotion);
-        }
-
-        if (action.equals("NewSave")) {
-            emotionList.add(emotion);
-        }
-        saveInFile();
-*/
         //adapter is basically an interface which connects your listView with your data
         //data can come from database or from file
         //adapter takes list view and binds it to data
@@ -183,13 +148,4 @@ public class EmotionListActivity extends Activity {
             e.printStackTrace();
         }
     }
-
-/*
-    void delete(Emotion emotion){
-        //Log.d("Delete", "Reached");
-        emotionList.remove(emotion);
-        saveInFile();
-        //adapter.notifyDataSetChanged();
-    }
-*/
 }

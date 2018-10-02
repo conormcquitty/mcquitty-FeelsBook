@@ -1,7 +1,5 @@
 package com.example.conor.feelsbook;
 
-//import android.util.Log;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -35,4 +33,5 @@ public class Emotion implements Serializable {
     public String getComment(){
         return this.comment;
     }
+
 }

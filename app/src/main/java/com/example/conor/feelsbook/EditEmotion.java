@@ -1,12 +1,9 @@
 package com.example.conor.feelsbook;
 
-//import android.util.Log;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +35,7 @@ public class EditEmotion extends AppCompatActivity {
     String commentString;
     String action;
     int index;
+    Date date;
 
 
 
@@ -47,23 +45,19 @@ public class EditEmotion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_emotion);
 
-
-        if (emotionList == null){
-            loadFromFile();
-        }
+        loadFromFile();
 
 
         Intent i = getIntent();
         SelectedEmotion = (String)i.getSerializableExtra("SelectedEmotion");
         final Emotion emotion = (Emotion)i.getSerializableExtra("Emotion");
-        index = (int)i.getIntExtra("Index", -1);
+        index = i.getIntExtra("Index", -1);
 
         //Saves the emotion to the array list
         Button saveButton = (Button) findViewById(R.id.SaveButtonEditEmotionPage);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-               // Log.d("fuck", emotion.getComment());
                 saveValues(emotion);
             }
         });
@@ -73,100 +67,48 @@ public class EditEmotion extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 delete(index);
-
-                /*
-                Intent intent = new Intent(v.getContext(), EmotionListActivity.class);
-                intent.putExtra("Action", "Delete");
-                intent.putExtra("Emotion", emotion);
-                //String testComment = emotion.getComment();
-                //Log.d ("onPress Comment", testComment);
-                startActivity(intent);
-                */
-
             }
         });
 
-        //Getting the header text
+        displayValues(SelectedEmotion, emotion);
+    }
+
+    void displayValues(String SelectedEmotion, Emotion emotion){
+
+        //Displaying the Emotion name in the header text
         TextView HeaderText = (TextView) findViewById(R.id.EmotionHeaderEditEmotionPage);
         HeaderText.setText(SelectedEmotion);
 
-        //Getting the date
+        //Displaying the date
         //from https://mincong-h.github.io/2017/02/16/convert-date-to-string-in-java/#javautildate
-        Date date = new Date();
-        SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String datestring = sdf.format(date);
-        EditText DateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
-        DateText.setText(datestring);
         //TODO: Throw exceptions when date isn't entered correctly!
+        if (emotion == null){
+            date = new Date();
+        }
+        else{
+            date = emotion.getDate();
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String dateString = sdf.format(date);
+        EditText DateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
+        DateText.setText(dateString);
 
         //Getting the comment
+        //TODO: Throw exception when comment is too long
         if (emotion == null) {
-            commentString = null;
+            TextView CommentText = (TextView) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
+            CommentText.setHint("Enter Comment");
         }
+
         else {
+            TextView CommentText = (TextView) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
             commentString = emotion.getComment();
-            //TODO: Throw exceptions when comment is too long.
-        }
-
-        if (commentString!=null){
-            TextView CommentText = (TextView) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
+            CommentText.setHint("Enter Comment");
             CommentText.setText(commentString);
-        }
-
-        else {
-            TextView CommentText = (TextView) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
-            CommentText.setText("Enter Comment");
         }
     }
 
-/*
-    public void onStart(){
-        super.onStart();
-        //Getting Intent from Emotion List Activity page. Selecting Emotion object to work with.
-
-        /*
-        if (emotion != null) {
-            String testComment = emotion.getComment();
-            Log.d("onStart Comment", testComment);
-        }
-        //
-       // String Comment = (String)i.getSerializableExtra("Comment");
-
-        //Getting the header text
-        TextView HeaderText = (TextView) findViewById(R.id.EmotionHeaderEditEmotionPage);
-        HeaderText.setText(SelectedEmotion);
-
-        //Getting the date
-        //from https://mincong-h.github.io/2017/02/16/convert-date-to-string-in-java/#javautildate
-        Date date = new Date();
-        SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String datestring = sdf.format(date);
-        EditText DateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
-        DateText.setText(datestring);
-        //TODO: Throw exceptions when date isn't entered correctly!
-
-        //Getting the comment
-        if (emotion == null) {
-            commentString = null;
-        }
-        else {
-            commentString = emotion.getComment();
-            //TODO: Throw exceptions when comment is too long.
-        }
-
-        if (commentString!=null){
-            TextView CommentText = (TextView) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
-            CommentText.setText(commentString);
-        }
-
-        else {
-            TextView CommentText = (TextView) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
-            CommentText.setText("Enter Comment");
-        }
-    }
-*/
 
     //Saving entered comments and date to Emotion object
     private void saveValues(Emotion emotion){
@@ -176,7 +118,6 @@ public class EditEmotion extends AppCompatActivity {
             action = "NewSave";
             emotion  = new Emotion(SelectedEmotion);
         }
-
         else{
             action = "OldSave";
         }
@@ -184,10 +125,6 @@ public class EditEmotion extends AppCompatActivity {
         //Save comment
         EditText commentText = (EditText) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
         String commentToSave = commentText.getText().toString();
-
-        if (commentToSave == null) {
-            commentToSave = " ";
-        }
 
         emotion.comment = commentToSave;
 
@@ -201,11 +138,9 @@ public class EditEmotion extends AppCompatActivity {
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
         try {
-           // Log.d("Date", dateToSave);
             Date date = sdf.parse(dateToSave);
             emotion.date = date;
         }
-
         catch (ParseException a){
             a.printStackTrace();
         }
@@ -213,26 +148,20 @@ public class EditEmotion extends AppCompatActivity {
         if (action.equals("NewSave")){
             emotionList.add(emotion);
         }
+
         if(action.equals("OldSave")){
             emotionList.set(index,emotion);
         }
 
         saveInFile();
-
         Intent intent = new Intent(this, EmotionListActivity.class);
-       // intent.putExtra("Emotion", emotion);
         startActivity(intent);
     }
 
     void delete (int index){
         emotionList.remove(index);
         saveInFile();
-
-
-
         Intent intent = new Intent(this, EmotionListActivity.class);
-        //String testComment = emotion.getComment();
-        //Log.d ("onPress Comment", testComment);
         startActivity(intent);
     }
 
