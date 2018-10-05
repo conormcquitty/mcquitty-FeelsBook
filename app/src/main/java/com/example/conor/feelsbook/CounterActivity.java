@@ -42,6 +42,7 @@ public class CounterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     public void getCount(ArrayList<Emotion> emotionList){

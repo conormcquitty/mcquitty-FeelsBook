@@ -6,10 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,14 +24,12 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 public class EditEmotion extends AppCompatActivity {
 
-    private static final String FILENAME = "EmotionFile3.sav";
+    private static final String FILENAME = "Emotion.sav";
     ArrayList<Emotion> emotionList;
     String SelectedEmotion;
     String commentString;
@@ -48,7 +44,6 @@ public class EditEmotion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_emotion);
-
         loadFromFile();
 
         Intent i = getIntent();
@@ -72,12 +67,15 @@ public class EditEmotion extends AppCompatActivity {
                 delete(index);
             }
         });
-
         displayValues(SelectedEmotion, emotion);
     }
 
+    /**
+     * Displays the values (Emotion name, comment, time) on the Edit Emotion page
+     * @param SelectedEmotion
+     * @param emotion
+     */
     void displayValues(String SelectedEmotion, Emotion emotion){
-
         //Displaying the Emotion name in the header text
         TextView HeaderText = (TextView) findViewById(R.id.EmotionHeaderEditEmotionPage);
         HeaderText.setText(SelectedEmotion);
@@ -91,43 +89,11 @@ public class EditEmotion extends AppCompatActivity {
         else{
             date = emotion.getDate();
         }
-
-        //Setting date in date picker
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DATE);
-        int hour = calendar.get(Calendar.HOUR);
-        int minute = calendar.get(Calendar.MINUTE);
-
-
-
-        DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
-        datePicker.updateDate(year, month, day);
-
-        /**
-         * Due to use of TimePicker.setHour & TimePicker.setMinute, I had to increase min API level
-         * to 23. Initially was 15.
-         * Credit Zach for Time picker
-         */
-        TimePicker timePicker = (TimePicker) findViewById(R.id.timePicker);
-        timePicker.setHour(hour);
-        timePicker.setMinute(minute);
-
-
-
-/*
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("MDT"));
         String dateString = sdf.format(date);
         EditText DateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
         DateText.setText(dateString);
-        */
 
-        /**
-         *
-         */
         //Getting the comment
         //TODO: Throw exception when comment is too long
         if (emotion == null) {
@@ -144,10 +110,11 @@ public class EditEmotion extends AppCompatActivity {
     }
 
 
-    //Saving entered comments and date to Emotion object
+    /**
+     * Saves the user entered values (comment and date) on the edit page to the Emotion object
+     * @param emotion
+     */
     private void saveValues(Emotion emotion){
-
-        //if it's a new emotion, make a new Emotion
         if (emotion == null) {
             action = "NewSave";
             emotion  = new Emotion(SelectedEmotion);
@@ -159,32 +126,15 @@ public class EditEmotion extends AppCompatActivity {
         //Save comment
         EditText commentText = (EditText) findViewById(R.id.CommentEditTextBoxEditEmotionPage);
         String commentToSave = commentText.getText().toString();
-
         emotion.comment = commentToSave;
 
-        DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
-        TimePicker timePicker = (TimePicker) findViewById(R.id.timePicker);
-        int year = datePicker.getYear();
-        int month = datePicker.getMonth();
-        int day = datePicker.getDayOfMonth();
-        int hour = timePicker.getHour();
-        int minute = timePicker.getMinute();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, hour, minute);
-
-        emotion.date = calendar.getTime();
-
-/*
         //Save date
-        EditText dateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
-        String dateToSave = dateText.getText().toString();
-
         //formatting date
         // from https://www.mkyong.com/java/how-to-convert-string-to-date-java/
+        EditText dateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
+        String dateToSave = dateText.getText().toString();
         SimpleDateFormat sdf;
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("MDT"));
-
         try {
             Date date = sdf.parse(dateToSave);
             emotion.date = date;
@@ -193,33 +143,32 @@ public class EditEmotion extends AppCompatActivity {
             a.printStackTrace();
         }
 
-*/
+        //Adds a new Emotion to the array list, or updates and old one
         if (action.equals("NewSave")){
             emotionList.add(emotion);
         }
-
         if(action.equals("OldSave")){
             emotionList.set(index,emotion);
         }
-
         saveInFile();
         Intent intent = new Intent(this, EmotionListActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Deletes an emotion object from the array list
+     * @param index
+     */
     void delete (int index){
-        if (index == -1){
-            Intent intent = new Intent(this, MainScreen.class);
-            startActivity(intent);
-        }
-        else {
-            emotionList.remove(index);
-            saveInFile();
-            Intent intent = new Intent(this, EmotionListActivity.class);
-            startActivity(intent);
-        }
+        emotionList.remove(index);
+        saveInFile();
+        Intent intent = new Intent(this, EmotionListActivity.class);
+        startActivity(intent);
     }
 
+    /**
+     * Loads an array list from a file
+     */
     private void loadFromFile() {
         try {
             FileInputStream fis = openFileInput(FILENAME);
@@ -234,7 +183,9 @@ public class EditEmotion extends AppCompatActivity {
         }
     }
 
-    //takes a text and date and saves it to our file.
+    /**
+     * Saves an array list to a file
+     */
     private void saveInFile() {
         try {
             //creates a file with FILENAME and tells it what it will say in java syntax

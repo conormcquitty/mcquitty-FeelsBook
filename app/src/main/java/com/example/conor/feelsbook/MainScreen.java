@@ -25,18 +25,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-
-
 public class MainScreen extends AppCompatActivity {
-    public String SelectedEmotion;
 
+    public String SelectedEmotion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
-
-        //takes you straight to the Emotion List page
+        //takes you to the Emotion List page
         Button historyButton = (Button) findViewById(R.id.MainPageHistoryButton);
         historyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -70,9 +67,6 @@ public class MainScreen extends AppCompatActivity {
                     SelectedEmotion = "Fear";
                     break;
             }
-
-            //creates intent to go to EditEmotion page, passes the Emotion name and ArrayList
-            // to the EditEmotion page.
             Intent intent = new Intent(this, EditEmotion.class);
             intent.putExtra("SelectedEmotion", SelectedEmotion);
             startActivity(intent);

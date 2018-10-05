@@ -24,13 +24,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
+
 
 
 public class EmotionListActivity extends Activity {
 
     //code derived from lab activity LonelyTwitter
-    private static final String FILENAME = "EmotionFile3.sav";
+    private static final String FILENAME = "Emotion.sav";
     private ListView oldEmotionList;
     ArrayList<Emotion> emotionList;
     ArrayAdapter<Emotion> adapter;
@@ -41,8 +41,6 @@ public class EmotionListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emotion_list);
         oldEmotionList = (ListView) findViewById(R.id.EmotionListView);
-
-
 
         //Returns to home screen on press
         Button returnButton = (Button) findViewById(R.id.ReturnToHomeButton);
@@ -55,7 +53,6 @@ public class EmotionListActivity extends Activity {
             }
         });
 
-
         //Clears the list on press
         Button clearButton = (Button) findViewById(R.id.ClearButton);
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +63,6 @@ public class EmotionListActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         });
-
 
         //Go to counter screen on press
         Button countButton = (Button) findViewById(R.id.CountButton);
@@ -79,7 +75,6 @@ public class EmotionListActivity extends Activity {
                 startActivity(i);
             }
         });
-
 
         //Takes you to edit emotion details when an emotion on list view is clicked
         oldEmotionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,25 +92,19 @@ public class EmotionListActivity extends Activity {
         });
     }
 
-    protected void sort(){
-        Collections.sort(this.emotionList);
-    }
-
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
         loadFromFile();
-        sort();
-
-        //adapter is basically an interface which connects your listView with your data
-        //data can come from database or from file
-        //adapter takes list view and binds it to data
         adapter = new ArrayAdapter<Emotion>(this,
                 R.layout.list_item, emotionList);
         adapter.notifyDataSetChanged();
         oldEmotionList.setAdapter(adapter);
     }
 
+    /**
+     * Loads an array list from a file
+     */
     private void loadFromFile() {
         try {
             FileInputStream fis = openFileInput(FILENAME);
@@ -130,7 +119,9 @@ public class EmotionListActivity extends Activity {
         }
     }
 
-    //takes a text and date and saves it to our file.
+    /**
+     * Saves an array list to a file
+     */
     private void saveInFile() {
         try {
             //creates a file with FILENAME and tells it what it will say in java syntax
