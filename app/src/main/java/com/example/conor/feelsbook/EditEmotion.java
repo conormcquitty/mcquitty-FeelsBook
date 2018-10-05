@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,7 +26,9 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 public class EditEmotion extends AppCompatActivity {
@@ -46,7 +50,6 @@ public class EditEmotion extends AppCompatActivity {
         setContentView(R.layout.activity_edit_emotion);
 
         loadFromFile();
-
 
         Intent i = getIntent();
         SelectedEmotion = (String)i.getSerializableExtra("SelectedEmotion");
@@ -89,11 +92,42 @@ public class EditEmotion extends AppCompatActivity {
             date = emotion.getDate();
         }
 
+        //Setting date in date picker
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        int hour = calendar.get(Calendar.HOUR);
+        int minute = calendar.get(Calendar.MINUTE);
+
+
+
+        DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
+        datePicker.updateDate(year, month, day);
+
+        /**
+         * Due to use of TimePicker.setHour & TimePicker.setMinute, I had to increase min API level
+         * to 23. Initially was 15.
+         * Credit Zach for Time picker
+         */
+        TimePicker timePicker = (TimePicker) findViewById(R.id.timePicker);
+        timePicker.setHour(hour);
+        timePicker.setMinute(minute);
+
+
+
+/*
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("MDT"));
         String dateString = sdf.format(date);
         EditText DateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
         DateText.setText(dateString);
+        */
 
+        /**
+         *
+         */
         //Getting the comment
         //TODO: Throw exception when comment is too long
         if (emotion == null) {
@@ -128,6 +162,19 @@ public class EditEmotion extends AppCompatActivity {
 
         emotion.comment = commentToSave;
 
+        DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
+        TimePicker timePicker = (TimePicker) findViewById(R.id.timePicker);
+        int year = datePicker.getYear();
+        int month = datePicker.getMonth();
+        int day = datePicker.getDayOfMonth();
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, hour, minute);
+
+        emotion.date = calendar.getTime();
+
+/*
         //Save date
         EditText dateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
         String dateToSave = dateText.getText().toString();
@@ -136,6 +183,7 @@ public class EditEmotion extends AppCompatActivity {
         // from https://www.mkyong.com/java/how-to-convert-string-to-date-java/
         SimpleDateFormat sdf;
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("MDT"));
 
         try {
             Date date = sdf.parse(dateToSave);
@@ -145,6 +193,7 @@ public class EditEmotion extends AppCompatActivity {
             a.printStackTrace();
         }
 
+*/
         if (action.equals("NewSave")){
             emotionList.add(emotion);
         }
@@ -159,10 +208,16 @@ public class EditEmotion extends AppCompatActivity {
     }
 
     void delete (int index){
-        emotionList.remove(index);
-        saveInFile();
-        Intent intent = new Intent(this, EmotionListActivity.class);
-        startActivity(intent);
+        if (index == -1){
+            Intent intent = new Intent(this, MainScreen.class);
+            startActivity(intent);
+        }
+        else {
+            emotionList.remove(index);
+            saveInFile();
+            Intent intent = new Intent(this, EmotionListActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void loadFromFile() {

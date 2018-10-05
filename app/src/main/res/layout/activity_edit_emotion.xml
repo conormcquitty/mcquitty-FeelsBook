@@ -10,39 +10,52 @@
         android:id="@+id/CommentEditTextBoxEditEmotionPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/DateEditTextBoxEditEmotionPage"
+        android:maxLength="100"
+        android:maxLines="1"
+        android:gravity="start"
+        android:background="@null"
+        app:layout_constraintBottom_toTopOf="@+id/timePicker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EmotionHeaderEditEmotionPage" />
 
-    <EditText
-        android:id="@+id/DateEditTextBoxEditEmotionPage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/SaveButtonEditEmotionPage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CommentEditTextBoxEditEmotionPage" />
-
-    <Button
-        android:id="@+id/SaveButtonEditEmotionPage"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:onClick="saveValues"
-        android:text="Save"
-        app:layout_constraintBottom_toTopOf="@+id/DeleteButtonEditEmotionPage"
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="230dp"
+        android:layout_height="143dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@+id/datePicker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DateEditTextBoxEditEmotionPage" />
+        app:layout_constraintTop_toBottomOf="@+id/CommentEditTextBoxEditEmotionPage" />
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="230dp"
+        android:layout_height="143dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:descendantFocusability="blocksDescendants"
+        app:layout_constraintBottom_toTopOf="@+id/SaveButtonEditEmotionPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+
+    <Button
+        android:id="@+id/SaveButtonEditEmotionPage"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/DeleteButtonEditEmotionPage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/EmotionHeaderEditEmotionPage"
@@ -59,12 +72,12 @@
 
     <Button
         android:id="@+id/DeleteButtonEditEmotionPage"
-        android:layout_width="200dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/SaveButtonEditEmotionPage" />
 </android.support.constraint.ConstraintLayout>

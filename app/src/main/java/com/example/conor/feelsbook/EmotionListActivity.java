@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
+import java.util.Collections;
 
 
 public class EmotionListActivity extends Activity {
@@ -97,10 +97,15 @@ public class EmotionListActivity extends Activity {
         });
     }
 
+    protected void sort(){
+        Collections.sort(this.emotionList);
+    }
+
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
         loadFromFile();
+        sort();
 
         //adapter is basically an interface which connects your listView with your data
         //data can come from database or from file
