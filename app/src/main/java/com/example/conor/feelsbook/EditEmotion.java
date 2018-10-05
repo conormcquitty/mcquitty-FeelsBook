@@ -31,12 +31,12 @@ import java.util.Date;
 public class EditEmotion extends AppCompatActivity {
 
     private static final String FILENAME = "Emotion.sav";
-    ArrayList<Emotion> emotionList;
-    String SelectedEmotion;
-    String commentString;
-    String action;
-    int index;
-    Date date;
+    private ArrayList<Emotion> emotionList;
+    private String selectedEmotion;
+    private String commentString;
+    private String action;
+    private int index;
+    private Date date;
 
     //TODO: Remove functionality from onCreate function and move to other function
     @Override
@@ -46,7 +46,7 @@ public class EditEmotion extends AppCompatActivity {
         loadFromFile();
 
         Intent i = getIntent();
-        SelectedEmotion = (String)i.getSerializableExtra("SelectedEmotion");
+        selectedEmotion = (String)i.getSerializableExtra("SelectedEmotion");
         final Emotion emotion = (Emotion)i.getSerializableExtra("Emotion");
         index = i.getIntExtra("Index", -1);
 
@@ -67,18 +67,18 @@ public class EditEmotion extends AppCompatActivity {
                 delete(index);
             }
         });
-        displayValues(SelectedEmotion, emotion);
+        displayValues(selectedEmotion, emotion);
     }
 
     /**
      * Displays the values (Emotion name, comment, time) on the Edit Emotion page
-     * @param SelectedEmotion
+     * @param selectedEmotion
      * @param emotion
      */
-    void displayValues(String SelectedEmotion, Emotion emotion){
+    void displayValues(String selectedEmotion, Emotion emotion){
         //Displaying the Emotion name in the header text
         TextView HeaderText = (TextView) findViewById(R.id.EmotionHeaderEditEmotionPage);
-        HeaderText.setText(SelectedEmotion);
+        HeaderText.setText(selectedEmotion);
 
         //Displaying the date
         //from https://mincong-h.github.io/2017/02/16/convert-date-to-string-in-java/#javautildate
@@ -117,7 +117,7 @@ public class EditEmotion extends AppCompatActivity {
     private void saveValues(Emotion emotion){
         if (emotion == null) {
             action = "NewSave";
-            emotion  = new Emotion(SelectedEmotion);
+            emotion  = new Emotion(selectedEmotion);
         }
         else{
             action = "OldSave";

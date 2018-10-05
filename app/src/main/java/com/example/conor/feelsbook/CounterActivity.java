@@ -11,13 +11,13 @@ import java.util.ArrayList;
 
 public class CounterActivity extends AppCompatActivity {
 
-    ArrayList<Emotion> emotionList;
-    int loveCount = 0;
-    int joyCount = 0;
-    int surpriseCount = 0;
-    int angerCount = 0;
-    int sadnessCount = 0;
-    int fearCount = 0;
+    private ArrayList<Emotion> emotionList;
+    private int loveCount = 0;
+    private int joyCount = 0;
+    private int surpriseCount = 0;
+    private int angerCount = 0;
+    private int sadnessCount = 0;
+    private int fearCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

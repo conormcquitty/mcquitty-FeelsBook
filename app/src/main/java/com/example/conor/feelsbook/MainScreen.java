@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainScreen extends AppCompatActivity {
-    public String SelectedEmotion;
+    private String selectedEmotion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +30,26 @@ public class MainScreen extends AppCompatActivity {
         public void chooseEmotion(View view) {
             switch (view.getId()){
                 case R.id.MainPageLoveButton:
-                    SelectedEmotion = "Love";
+                    selectedEmotion = "Love";
                     break;
                 case R.id.MainPageJoyButton:
-                    SelectedEmotion = "Joy";
+                    selectedEmotion = "Joy";
                     break;
                 case R.id.MainPageSurpriseButton:
-                    SelectedEmotion = "Surprise";
+                    selectedEmotion = "Surprise";
                     break;
                 case R.id.MainPageAngerButton:
-                    SelectedEmotion = "Anger";
+                    selectedEmotion = "Anger";
                     break;
                 case R.id.MainPageSadnessButton:
-                    SelectedEmotion = "Sadness";
+                    selectedEmotion = "Sadness";
                     break;
                 case R.id.MainPageFearButton:
-                    SelectedEmotion = "Fear";
+                    selectedEmotion = "Fear";
                     break;
             }
             Intent intent = new Intent(this, EditEmotion.class);
-            intent.putExtra("SelectedEmotion", SelectedEmotion);
+            intent.putExtra("SelectedEmotion", selectedEmotion);
             startActivity(intent);
         }
     }

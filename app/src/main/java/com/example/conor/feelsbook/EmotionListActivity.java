@@ -31,8 +31,8 @@ public class EmotionListActivity extends Activity {
 
     private static final String FILENAME = "Emotion.sav";
     private ListView oldEmotionList;
-    ArrayList<Emotion> emotionList;
-    ArrayAdapter<Emotion> adapter;
+    private ArrayList<Emotion> emotionList;
+    private ArrayAdapter<Emotion> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
