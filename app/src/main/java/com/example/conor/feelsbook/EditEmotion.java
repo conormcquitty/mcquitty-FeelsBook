@@ -37,8 +37,6 @@ public class EditEmotion extends AppCompatActivity {
     int index;
     Date date;
 
-
-
     //TODO: Remove functionality from onCreate function and move to other function
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +87,8 @@ public class EditEmotion extends AppCompatActivity {
         else{
             date = emotion.getDate();
         }
+
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String dateString = sdf.format(date);
         EditText DateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);

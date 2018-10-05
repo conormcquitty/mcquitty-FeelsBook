@@ -9,7 +9,6 @@ public class Emotion implements Serializable {
     public Date date;
     public String comment;
 
-
     public Emotion(String emotion){
         this.date = new Date();
         this.comment = null;
