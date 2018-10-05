@@ -156,14 +156,21 @@ public class EditEmotion extends AppCompatActivity {
     }
 
     /**
-     * Deletes an emotion object from the array list
+     * Deletes an emotion object from the array list. If it is a new emotion entry, upon delete press
+     * the app will return to the main screen.
      * @param index
      */
     void delete (int index){
-        emotionList.remove(index);
-        saveInFile();
-        Intent intent = new Intent(this, EmotionListActivity.class);
-        startActivity(intent);
+        if (index == -1){
+            Intent intent = new Intent(this, MainScreen.class);
+            startActivity(intent);
+        }
+        else {
+            emotionList.remove(index);
+            saveInFile();
+            Intent intent = new Intent(this, EmotionListActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**

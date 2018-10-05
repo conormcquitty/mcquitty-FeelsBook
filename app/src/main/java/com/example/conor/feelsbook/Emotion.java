@@ -1,9 +1,11 @@
 package com.example.conor.feelsbook;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class Emotion implements Serializable {
+public class Emotion implements Serializable, Comparable<Emotion> {
 
     private String emotion;
     public Date date;
@@ -29,6 +31,11 @@ public class Emotion implements Serializable {
 
     public String getComment(){
         return this.comment;
+    }
+
+    @Override
+    public int compareTo(@NonNull Emotion emotion) {
+        return date.compareTo(emotion.getDate());
     }
 
 }
