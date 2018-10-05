@@ -29,12 +29,10 @@ import java.util.Collections;
 
 public class EmotionListActivity extends Activity {
 
-    //code derived from lab activity LonelyTwitter
     private static final String FILENAME = "Emotion.sav";
     private ListView oldEmotionList;
     ArrayList<Emotion> emotionList;
     ArrayAdapter<Emotion> adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +101,9 @@ public class EmotionListActivity extends Activity {
         oldEmotionList.setAdapter(adapter);
     }
 
+    /**
+     * Sorts the emotion list
+     */
     protected void sort(){
         Collections.sort(this.emotionList);
     }

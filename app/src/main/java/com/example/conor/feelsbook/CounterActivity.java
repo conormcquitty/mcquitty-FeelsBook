@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class CounterActivity extends AppCompatActivity {
 
-
     ArrayList<Emotion> emotionList;
     int loveCount = 0;
     int joyCount = 0;
@@ -27,9 +26,7 @@ public class CounterActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         emotionList = (ArrayList<Emotion>) i.getSerializableExtra("ArrayList");
-
         getCount(emotionList);
-
         displayCount();
 
         //Saves the emotion to the array list
@@ -45,6 +42,10 @@ public class CounterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Returns the number of objects of each emotion type that exist in the emotion list
+     * @param emotionList
+     */
     public void getCount(ArrayList<Emotion> emotionList){
         for (Emotion each:emotionList){
             String emotionName = each.getEmotionName();
@@ -69,8 +70,10 @@ public class CounterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays the count of emotions
+     */
     public void displayCount(){
-
         //Love
         TextView loveCountText = (TextView) findViewById(R.id.loveCountDisplay);
         loveCountText.setText("Love Count" + " = " + loveCount);
@@ -94,9 +97,5 @@ public class CounterActivity extends AppCompatActivity {
         //Fear
         TextView fearCountText = (TextView) findViewById(R.id.fearCountDisplay);
         fearCountText.setText("Fear Count" + " = " + fearCount);
-
-
-
-
     }
 }

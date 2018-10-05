@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -58,6 +59,7 @@ public class EditEmotion extends AppCompatActivity {
             }
         });
 
+        //Deletes the emotion from the emotion list
         Button deleteButton = (Button) findViewById(R.id.DeleteButtonEditEmotionPage);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -87,8 +89,6 @@ public class EditEmotion extends AppCompatActivity {
         else{
             date = emotion.getDate();
         }
-
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String dateString = sdf.format(date);
         EditText DateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
@@ -129,8 +129,6 @@ public class EditEmotion extends AppCompatActivity {
         emotion.comment = commentToSave;
 
         //Save date
-        //formatting date
-        // from https://www.mkyong.com/java/how-to-convert-string-to-date-java/
         EditText dateText = (EditText) findViewById(R.id.DateEditTextBoxEditEmotionPage);
         String dateToSave = dateText.getText().toString();
         SimpleDateFormat sdf;
@@ -138,21 +136,21 @@ public class EditEmotion extends AppCompatActivity {
         try {
             Date date = sdf.parse(dateToSave);
             emotion.date = date;
+            //Adds a new Emotion to the array list, or updates and old one
+            if (action.equals("NewSave")){
+                emotionList.add(emotion);
+            }
+            if(action.equals("OldSave")){
+                emotionList.set(index,emotion);
+            }
+            saveInFile();
+            Intent intent = new Intent(this, EmotionListActivity.class);
+            startActivity(intent);
         }
-        catch (ParseException a){
-            a.printStackTrace();
+        catch (ParseException e){
+            e.printStackTrace();
+            Toast.makeText(EditEmotion.this, "Invalid Date String Entered", Toast.LENGTH_LONG).show();
         }
-
-        //Adds a new Emotion to the array list, or updates and old one
-        if (action.equals("NewSave")){
-            emotionList.add(emotion);
-        }
-        if(action.equals("OldSave")){
-            emotionList.set(index,emotion);
-        }
-        saveInFile();
-        Intent intent = new Intent(this, EmotionListActivity.class);
-        startActivity(intent);
     }
 
     /**
@@ -195,18 +193,14 @@ public class EditEmotion extends AppCompatActivity {
      */
     private void saveInFile() {
         try {
-            //creates a file with FILENAME and tells it what it will say in java syntax
             FileOutputStream fos = openFileOutput(FILENAME,
                     Context.MODE_PRIVATE);
 
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
             gson.toJson(emotionList, out);
-
-            //important to flush otherwise you will print garbage
             out.flush();
             fos.close();
-
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
